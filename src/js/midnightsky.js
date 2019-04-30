@@ -94,12 +94,16 @@ import './general.js';
   END OF PART 3 - TEST AND DEBUG YOUR CODE - YOU SHOULD SEE CONSTELLATIONS ON YOUR PAGE       
 */
 
-class MidnightSky {
+class MidnightSky 
+{
 
-    constructor() {
-        
+    constructor() 
+    {
+        this.$canvas = document.querySelector('#imgCanvas');
+        this.$context = this.$canvas.getContext('2d');
+        this.$animationFrame;
     }
-
+}
     /*
     highlight(e) {
         this.config.position.x = e.pageX - this.$canvas.offsetLeft;
@@ -129,7 +133,6 @@ class MidnightSky {
         }
     }
     */
-}
 
 let midnightsky;
 window.addEventListener('load', () => midnightsky = new MidnightSky());
