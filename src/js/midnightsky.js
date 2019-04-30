@@ -99,11 +99,119 @@ class MidnightSky
 
     constructor() 
     {
+        // instance variables for UI
         this.$canvas = document.querySelector('#imgCanvas');
         this.$context = this.$canvas.getContext('2d');
         this.$animationFrame;
+
+        // data-related instance variables
+        this.defaults = {
+            star: {
+                color: 'rgba(255, 255, 255, .5)',
+                width: 3,
+                randomWidth: true
+            },
+            line: {
+                color: 'rgba(255, 255, 255, .5)',
+                width: 0.2
+            },
+            position: {
+                x: 0,
+                y: 0
+            },
+            width: window.innerWidth,
+            height: window.innerHeight,
+            velocity: 0.1,
+            length: 100,
+            distance: 120,
+            radius: 150,
+            stars: []
+        };
+        
+        // config object, created from parsed+stringified this.defaults
+        this.config = JSON.parse(JSON.stringify(this.defaults));
+        
+        // bind methods
+        this.setCanvas = this.setCanvas.bind(this);
+        this.setContext = this.setContext.bind(this);
+        this.setInitialPosition = this.setInitialPosition.bind(this);
+        this.createStar = this.createStar.bind(this);
+        this.createStars = this.createStars.bind(this);
+        this.drawStar = this.drawStar.bind(this);
+        this.drawStars = this.drawStars.bind(this);
+
+        // method calls
+        this.setCanvas();
+        this.setContext();
+        this.setInitialPosition();
+        this.createStars();
+        this.drawStars();
     }
-}
+
+    // setCanvas method
+    setCanvas()
+    {
+        // this.config, or just config? looks like this.config
+        const canvasWidth = this.config.width;
+        const canvasHeight = this.config.height;
+
+        this.$canvas.width = canvasWidth;
+        this.$canvas.height = canvasHeight;
+    }
+    // setContext method
+    setContext()
+    {
+        // strokeStyle
+        this.$context.strokeStyle = this.config.strokeStyle;
+        // fileStyle
+        this.$context.fileStyle = this.config.fileStyle;
+        // lineWidth
+        this.$context.lineWidth = this.config.lineWidth;
+    }
+    // setInitialPosition method
+    setInitialPosition()
+    {
+        this.config.x = this.$canvas.width / 2;
+        this.config.y = this.$canvas.height / 2;        
+    }
+    // createStar
+    createStar()
+    {
+        let star = JSON.parse(JSON.stringify(this.defaults.star));
+
+        star.x = Math.random() * this.$canvas.width;
+        star.y = Math.random() * this.$canvas.length;
+        star.vx = Math.random() * this.$canvas.x;
+        star.vy = Math.random() * this.$canvas.y;
+        star.radius = Math.random() * 1000;
+
+        return star;
+    }
+    // createStars
+    createStars()
+    {
+        for (let i = 0; i < this.config.length; i++)
+        {
+            let newStar = this.createStar();
+            this.config.stars += newStar;
+        }
+    }
+    // drawStar -- this one doesn't work!
+    drawStar(star)
+    {
+        this.$context.drawImage(this.config.star, 0, 0);
+    }
+    // drawStars
+    drawStars()
+    {
+        // clear canvas/context
+        this.$context.clearRect(0, 0, this.$canvas.height, this.$canvas.width);
+
+        for (let i = 0; i < this.config.stars.length; i++)
+        {
+            this.drawStar(this.star);
+        }
+    }
     /*
     highlight(e) {
         this.config.position.x = e.pageX - this.$canvas.offsetLeft;
@@ -133,7 +241,7 @@ class MidnightSky
         }
     }
     */
-
+}
 let midnightsky;
 window.addEventListener('load', () => midnightsky = new MidnightSky());
 window.addEventListener('resize', () => {
