@@ -177,13 +177,13 @@ class MidnightSky
     // createStar
     createStar()
     {
-        let star = JSON.parse(JSON.stringify(this.defaults.star));
+        let star = JSON.parse(JSON.stringify(this.defaults));
 
         let x = (Math.random() * this.$canvas.width);
         let y = (Math.random() * this.$canvas.height);
-        let vx = Math.random();
-        let vy = Math.random();
-        let radius = Math.random() * 1000;
+        let vx = Math.random() / x;
+        let vy = Math.random() / y;
+        let radius = Math.random();
 
         this.config.star = {"x": x, "y": y, "vx": vx, "vy": vy, "radius": radius};
         return star;
@@ -200,7 +200,9 @@ class MidnightSky
     // drawStar -- this one doesn't work!
     drawStar(star)
     {
-        this.config.star = this.$context.arcTo(star.x, star.y, star.vx, star.vy, star.radius);
+        this.$context.beginPath();
+        this.$context.arc(this.config.star.x, this.config.star.y, this.config.star.vx, this.config.star.vy, this.config.star.radius);
+        this.$context.fill();
     }
     // drawStars
     drawStars()
@@ -210,9 +212,11 @@ class MidnightSky
 
         for (let i = 0; i < this.config.stars.length; i++)
         {
-            this.drawStar(this.config.star);
+            this.drawStar(this.star);
         }
     }
+/*
+    add once you see stars
 
     highlight(e) {
         this.config.position.x = e.pageX - this.$canvas.offsetLeft;
@@ -241,6 +245,7 @@ class MidnightSky
             }
         }
     }
+    */
 }
 let midnightsky;
 window.addEventListener('load', () => midnightsky = new MidnightSky());
