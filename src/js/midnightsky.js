@@ -181,8 +181,8 @@ class MidnightSky
 
         let x = (Math.random() * this.$canvas.width);
         let y = (Math.random() * this.$canvas.height);
-        let vx = Math.random() / x;
-        let vy = Math.random() / y;
+        let vx = Math.random() * x;
+        let vy = Math.random() * y;
         let radius = Math.random();
 
         this.config.star = {"x": x, "y": y, "vx": vx, "vy": vy, "radius": radius};
