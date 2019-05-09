@@ -177,33 +177,32 @@ class MidnightSky
     // createStar
     createStar()
     {
-        let star = JSON.parse(JSON.stringify(this.defaults));
-
-        let x = (Math.random() * this.$canvas.width);
-        let y = (Math.random() * this.$canvas.height);
-        let vx = Math.random() * x;
-        let vy = Math.random() * y;
+        let x = Math.random() * canvasWidth;
+        let y = Math.random() * canvasHeight;
+        let vx = Math.random();
+        let vy = Math.random();
         let radius = Math.random();
 
-        this.config.star = {"x": x, "y": y, "vx": vx, "vy": vy, "radius": radius};
+        let star = {"x": x, "y": y, "vx": vx, "vy": vy, "radius": radius};
         return star;
     }
     // createStars
     createStars()
     {
-        for (let i = 0; i < this.config.length; i++)
+        for (let i = 0; i < 101; i++)
         {
-            let newStar = this.createStar();
-            this.config.stars += newStar;
+            star = this.createStar(i);
+            this.config.stars[i] += star;
         }
     }
     // drawStar -- this one doesn't work!
     drawStar(star)
     {
         this.$context.beginPath();
-        this.$context.arc(this.config.star.x, this.config.star.y, 40, 0, this.config.star.radius);
+        this.$context.arc(star.x, star.y, 40, 0, star.radius);
         this.$context.fill();
     }
+
     // drawStars
     drawStars()
     {
@@ -212,7 +211,7 @@ class MidnightSky
 
         for (let i = 0; i < this.config.stars.length; i++)
         {
-            this.drawStar(this.star);
+            this.drawStar(this.config.stars[i]);
         }
     }
 /*
