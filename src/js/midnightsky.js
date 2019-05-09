@@ -162,11 +162,11 @@ class MidnightSky
     setContext()
     {
         // strokeStyle
-        this.$context.strokeStyle = this.config.strokeStyle;
+        this.$context.strokeStyle = this.config.line.color;
         // fileStyle
-        this.$context.fileStyle = this.config.fileStyle;
+        this.$context.fileStyle = this.config.star.color;
         // lineWidth
-        this.$context.lineWidth = this.config.lineWidth;
+        this.$context.lineWidth = this.config.line.width;
     }
     // setInitialPosition method
     setInitialPosition()
@@ -201,7 +201,7 @@ class MidnightSky
     drawStar(star)
     {
         this.$context.beginPath();
-        this.$context.arc(this.config.star.x, this.config.star.y, this.config.star.vx, this.config.star.vy, this.config.star.radius);
+        this.$context.arc(this.config.star.x, this.config.star.y, 40, 0, this.config.star.radius);
         this.$context.fill();
     }
     // drawStars
