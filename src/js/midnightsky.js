@@ -103,6 +103,7 @@ class MidnightSky
         this.$canvas = document.querySelector('#imgCanvas');
         this.$context = this.$canvas.getContext('2d');
         this.$animationFrame;
+        this.maxStarCount = 150;
 
         // data-related instance variables
         this.defaults = {
@@ -163,8 +164,8 @@ class MidnightSky
     {
         // strokeStyle
         this.$context.strokeStyle = this.config.line.color;
-        // fileStyle
-        this.$context.fileStyle = this.config.star.color;
+        // fillStyle
+        this.$context.fillStyle = this.config.star.color;
         // lineWidth
         this.$context.lineWidth = this.config.line.width;
     }
@@ -174,32 +175,39 @@ class MidnightSky
         this.config.x = this.$canvas.width / 2;
         this.config.y = this.$canvas.height / 2;        
     }
+
     // createStar
     createStar()
     {
-        let x = Math.random() * canvasWidth;
-        let y = Math.random() * canvasHeight;
+        let star = JSON.parse(JSON.stringify(this.defaults));
+        let x = Math.random() * (this.$canvas.width);
+        let y = Math.random() * (this.$canvas.height);
         let vx = Math.random();
         let vy = Math.random();
-        let radius = Math.random();
+        let radius = (star.radius / 15) * Math.random();
 
-        let star = {"x": x, "y": y, "vx": vx, "vy": vy, "radius": radius};
+        star.x = x;
+        star.y = y;
+        star.vx = vx;
+        star.vy = vy;
+        star.radius = radius;
+
         return star;
     }
     // createStars
     createStars()
     {
-        for (let i = 0; i < 101; i++)
+        for (let i = 0; i < this.maxStarCount; i++)
         {
-            star = this.createStar(i);
-            this.config.stars[i] += star;
+            let newStar = this.createStar();
+            this.config.stars[i] = newStar;
         }
     }
     // drawStar -- this one doesn't work!
     drawStar(star)
     {
         this.$context.beginPath();
-        this.$context.arc(star.x, star.y, 40, 0, star.radius);
+        this.$context.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
         this.$context.fill();
     }
 
